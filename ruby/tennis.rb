@@ -12,16 +12,33 @@ class TennisGame1
     playerName == @player1Name ? @p1points += 1 : @p2points += 1
   end
 
+  def score_list
+    return {
+      0 => "Love",
+      1 => "Fifteen",
+      2 => "Thirty",
+      3 => "Forty"
+    }
+  end
+
+  def player_point_difference
+    @p1points - @p2points
+  end
+
+  def player_points_are_equal?
+    @p1points == @p2points
+  end
+
+  def player_points_unequal_and_above_deuce?
+    @p1points > 3 || @p2points > 3
+  end
+
   def setResultEqual
     return {
       0 => "Love-All",
       1 => "Fifteen-All",
       2 => "Thirty-All"
     }.fetch(@p1points, "Deuce")
-  end
-
-  def player_point_difference
-    @p1points - @p2points
   end
 
   def setResultWhenAboveDeuce(player_point_difference)
@@ -36,22 +53,6 @@ class TennisGame1
     end
   end
 
-  def player_points_are_equal?
-    @p1points == @p2points
-  end
-
-  def player_points_unequal_and_above_deuce?
-    @p1points > 3 || @p2points > 3
-  end
-
-  def score_list
-    return {
-      0 => "Love",
-      1 => "Fifteen",
-      2 => "Thirty",
-      3 => "Forty"
-    }
-  end
 
   def setResultUnequalBelowDeuce
     "#{score_list.fetch(@p1points)}-#{score_list.fetch(@p2points)}"

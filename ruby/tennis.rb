@@ -20,7 +20,7 @@ class TennisGame1
     }.fetch(@p1points, "Deuce")
   end
 
-  def setResultWhenDeuce(minusResult)
+  def setResultWhenAboveDeuce(minusResult)
     # case minusResult
     # when minusResult == 1
     #   return "Advantage " + @player1Name
@@ -47,6 +47,10 @@ class TennisGame1
     @p1points == @p2points
   end
 
+  def player_points_unequal_and_above_deuce?
+    @p1points > 3 || @p2points > 3
+  end
+
   def score_list
     return {
       0 => "Love",
@@ -61,9 +65,9 @@ class TennisGame1
     tempScore = 0
     if player_points_are_equal? # If both players have the same score
       result = setResultEqual
-    elsif (@p1points > 3 || @p2points > 3) # If both players end up 40-40
+    elsif player_points_unequal_and_above_deuce? # After both players end up 40-40
       minusResult = @p1points - @p2points
-      result = setResultWhenDeuce(minusResult)
+      result = setResultWhenAboveDeuce(minusResult)
     else
       result = "#{score_list.fetch(@p1points)}-#{score_list.fetch(@p2points)}"
     end

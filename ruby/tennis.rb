@@ -53,6 +53,10 @@ class TennisGame1
     }
   end
 
+  def setResultUnequalBelowDeuce
+    "#{score_list.fetch(@p1points)}-#{score_list.fetch(@p2points)}"
+  end
+
   def score
     result = ""
     tempScore = 0
@@ -61,7 +65,7 @@ class TennisGame1
     elsif player_points_unequal_and_above_deuce? # After both players end up 40-40
       result = setResultWhenAboveDeuce(player_point_difference)
     else
-      result = "#{score_list.fetch(@p1points)}-#{score_list.fetch(@p2points)}"
+      result = setResultUnequalBelowDeuce
     end
     result
   end

@@ -43,6 +43,10 @@ class TennisGame1
     end
   end
 
+  def player_points_are_equal?
+    @p1points == @p2points
+  end
+
   def score_list
     return {
       0 => "Love",
@@ -55,7 +59,7 @@ class TennisGame1
   def score
     result = ""
     tempScore = 0
-    if (@p1points == @p2points) # If both players have the same score
+    if player_points_are_equal? # If both players have the same score
       result = setResultEqual
     elsif (@p1points > 3 || @p2points > 3) # If both players end up 40-40
       minusResult = @p1points - @p2points

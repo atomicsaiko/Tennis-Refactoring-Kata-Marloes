@@ -7,50 +7,61 @@ class TennisGame1
     @p1points = 0
     @p2points = 0
   end
-        
+
   def won_point(playerName)
-    if playerName == @player1Name
-      @p1points += 1
+    playerName == @player1Name ? @p1points += 1 : @p2points += 1
+  end
+
+  def setResultEqual
+    return {
+      0 => "Love-All",
+      1 => "Fifteen-All",
+      2 => "Thirty-All"
+    }.fetch(@p1points, "Deuce")
+  end
+
+  def setResultWhenDeuce(minusResult)
+    # case minusResult
+    # when minusResult == 1
+    #   return "Advantage " + @player1Name
+    # when minusResult == -1
+    #   return "Advantage " + @player2Name
+    # when minusResult >= 2
+    #   return "Win for " + @player1Name
+    # else
+    #   return "Win for " + @player2Name
+    # end
+
+    if (minusResult == 1)
+      return "Advantage " + @player1Name
+    elsif (minusResult == -1)
+      return "Advantage " + @player2Name
+    elsif (minusResult >= 2)
+      return "Win for " + @player1Name
     else
-      @p2points += 1
+      return "Win for " + @player2Name
     end
   end
-  
+
+  def score_list
+    return {
+      0 => "Love",
+      1 => "Fifteen",
+      2 => "Thirty",
+      3 => "Forty"
+    }
+  end
+
   def score
     result = ""
-    tempScore=0
-    if (@p1points==@p2points)
-      result = {
-          0 => "Love-All",
-          1 => "Fifteen-All",
-          2 => "Thirty-All",
-      }.fetch(@p1points, "Deuce")
-    elsif (@p1points>=4 or @p2points>=4)
-      minusResult = @p1points-@p2points
-      if (minusResult==1)
-        result ="Advantage " + @player1Name
-      elsif (minusResult ==-1)
-        result ="Advantage " + @player2Name
-      elsif (minusResult>=2)
-        result = "Win for " + @player1Name
-      else
-        result ="Win for " + @player2Name
-      end
+    tempScore = 0
+    if (@p1points == @p2points) # If both players have the same score
+      result = setResultEqual
+    elsif (@p1points > 3 || @p2points > 3) # If both players end up 40-40
+      minusResult = @p1points - @p2points
+      result = setResultWhenDeuce(minusResult)
     else
-      (1...3).each do |i|
-        if (i==1)
-          tempScore = @p1points
-        else
-          result+="-"
-          tempScore = @p2points
-        end
-        result += {
-            0 => "Love",
-            1 => "Fifteen",
-            2 => "Thirty",
-            3 => "Forty",
-        }[tempScore]
-      end
+      result = "#{score_list.fetch(@p1points)}-#{score_list.fetch(@p2points)}"
     end
     result
   end
@@ -63,7 +74,7 @@ class TennisGame2
     @p1points = 0
     @p2points = 0
   end
-      
+
   def won_point(playerName)
     if playerName == @player1Name
       p1Score()
@@ -89,7 +100,7 @@ class TennisGame2
     if (@p1points==@p2points and @p1points>2)
         result = "Deuce"
     end
-    
+
     p1res = ""
     p2res = ""
     if (@p1points > 0 and @p2points==0)
@@ -115,11 +126,11 @@ class TennisGame2
       if (@p2points==3)
         p2res = "Forty"
       end
-      
+
       p1res = "Love"
       result = p1res + "-" + p2res
     end
-    
+
     if (@p1points>@p2points and @p1points < 4)
       if (@p1points==2)
         p1res="Thirty"
@@ -180,7 +191,7 @@ class TennisGame2
   def p1Score
     @p1points +=1
   end
-  
+
   def p2Score
     @p2points +=1
   end
@@ -193,7 +204,7 @@ class TennisGame3
     @p1 = 0
     @p2 = 0
   end
-      
+
   def won_point(n)
     if n == @p1N
         @p1 += 1
@@ -201,7 +212,7 @@ class TennisGame3
         @p2 += 1
     end
   end
-  
+
   def score
     if (@p1 < 4 and @p2 < 4) and (@p1 + @p2 < 6)
       p = ["Love", "Fifteen", "Thirty", "Forty"]
